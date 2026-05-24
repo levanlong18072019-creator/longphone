@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab thực hành - iPhone Store</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+        body { background: #f0f8ff; color: #1a1a2e; }
+
+        /* HEADER */
+        header {
+            background: #003366;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+        .logo a {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            background: linear-gradient(135deg, #4fc3f7, #0288d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        /* Search bar trong header */
+        .search-bar {
+            display: flex;
+            gap: 0.4rem;
+            flex: 1;
+            max-width: 360px;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 0.5rem 0.9rem;
+            border-radius: 25px;
+            border: none;
+            outline: none;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+        .search-bar input::placeholder { color: #aad4f5; }
+        .search-bar input:focus { background: rgba(255,255,255,0.25); }
+        .search-bar button {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            border: none;
+            background: #0288d1;
+            color: white;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        .search-bar button:hover { background: #0066b3; }
+
+        nav ul { list-style: none; display: flex; gap: 1.2rem; flex-wrap: wrap; }
+        nav ul li a {
+            color: #b8d4f0;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.3rem 0;
+            border-bottom: 2px solid transparent;
+        }
+        nav ul li a:hover { color: #4fc3f7; }
+        nav ul li a.active {
+            color: #4fc3f7;
+            border-bottom: 2px solid #4fc3f7;
+        }
+
+        /* PAGE TITLE */
+        .page-title {
+            background: linear-gradient(135deg, #003366, #0066b3);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 1rem 2rem;
+        }
+        .page-title h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .page-title p { color: #aad4f5; font-size: 1rem; }
+
+        /* PROGRESS SUMMARY */
+        .progress-summary {
+            max-width: 1200px;
+            margin: 1.5rem auto 0;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            flex-wrap: wrap;
+        }
+        .progress-summary span { font-size: 0.9rem; color: #555; }
+        .progress-bar-wrap { flex: 1; min-width: 160px; background: #e0eef8; border-radius: 99px; height: 10px; }
+        .progress-bar-fill { height: 10px; border-radius: 99px; background: linear-gradient(90deg, #0288d1, #4fc3f7); transition: width 0.5s; }
+        .progress-count { font-weight: bold; color: #0066b3; font-size: 1rem; }
+
+        /* CONTAINER GRID */
+        .container {
+            max-width: 1200px;
+            margin: 1.5rem auto 2rem;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
+            border: 1.5px solid #cce6ff;
+            border-radius: 15px;
+            padding: 1.4rem;
+            min-height: 260px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 32px rgba(0,102,179,0.14);
+            border-color: #0066b3;
+        }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+        .card h2 {
+            font-size: 1.1rem;
+            color: #003366;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid #4fc3f7;
+            display: inline-block;
+        }
+        /* Badge trạng thái */
+        .status-badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 99px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .status-badge.done { background: #d4edda; color: #155724; }
+        .status-badge.doing { background: #fff3cd; color: #856404; }
+        .status-badge.todo { background: #e9ecef; color: #495057; }
+        .status-badge:hover { opacity: 0.8; }
+
+        .card p { margin-bottom: 8px; }
+        .card p a {
+            font-size: 0.92rem;
+            color: #0066b3;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-block;
+            padding: 2px 0;
+        }
+        .card p a:hover { color: #004d8c; text-decoration: underline; transform: translateX(3px); }
+
+        /* Notes trong card */
+        .card-note {
+            font-size: 0.78rem;
+            color: #888;
+            margin-top: 0.4rem;
+            font-style: italic;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: #0066b3;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-top: 12px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover { background: #004d8c; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,102,179,0.3); }
+
+        /* SEARCH RESULTS */
+        #search-results-msg {
+            max-width: 1200px;
+            margin: 0.5rem auto 0;
+            padding: 0 20px;
+            font-size: 0.9rem;
+            color: #0066b3;
+            display: none;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #002244;
+            color: #b8d4f0;
+            margin-top: 2rem;
+            padding: 3rem 0 1rem 0;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        .footer-section h3, .footer-section h4 {
+            color: white;
+            margin-bottom: 1.2rem;
+            font-size: 1.05rem;
+            position: relative;
+            display: inline-block;
+        }
+        .footer-section h3::after, .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 36px;
+            height: 2px;
+            background: #4fc3f7;
+        }
+        .footer-section p { margin: 0.7rem 0; line-height: 1.6; display: flex; align-items: center; gap: 0.5rem; }
+        .footer-section ul { list-style: none; padding: 0; }
+        .footer-section ul li { margin: 0.7rem 0; }
+        .footer-section ul li a { color: #b8d4f0; text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .footer-section ul li a:hover { color: #4fc3f7; transform: translateX(4px); }
+        .social-links { display: flex; gap: 1rem; margin-top: 1rem; }
+        .social-links a {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px;
+            background: #003366; border-radius: 50%;
+            color: white; text-decoration: none; transition: all 0.3s; font-size: 1.1rem;
+        }
+        .social-links a:hover { background: #4fc3f7; transform: translateY(-3px); }
+        .newsletter-form { display: flex; gap: 0.5rem; margin: 1rem 0; }
+        .newsletter-form input { flex: 1; padding: 0.6rem; border: none; border-radius: 8px; background: #003366; color: white; outline: none; }
+        .newsletter-form input::placeholder { color: #88b8e0; }
+        .newsletter-form button { background: #0288d1; color: white; border: none; padding: 0.6rem 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+        .newsletter-form button:hover { background: #0066b3; }
+        .payment-methods { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1rem; }
+        .payment-methods span { background: #003366; padding: 0.3rem 0.7rem; border-radius: 5px; font-size: 0.78rem; color: #b8d4f0; }
+        .footer-bottom { text-align: center; padding: 1.5rem 0; margin-top: 2rem; border-top: 1px solid #003366; font-size: 0.8rem; color: #88b8e0; }
+        .footer-bottom a { color: #4fc3f7; text-decoration: none; }
+        .footer-bottom a:hover { text-decoration: underline; }
+
+        /* BACK TO TOP */
+        .back-to-top {
+            position: fixed; bottom: 28px; right: 28px;
+            background: #0066b3; color: white;
+            width: 44px; height: 44px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; font-size: 1.2rem;
+            opacity: 0; visibility: hidden; transition: all 0.3s;
+            z-index: 999; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .back-to-top.show { opacity: 1; visibility: visible; }
+        .back-to-top:hover { background: #004d8c; transform: translateY(-3px); }
+
+        /* RESPONSIVE */
+        @media (max-width: 1100px) { .container { grid-template-columns: repeat(3, 1fr); } .footer-container { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 800px) { .container { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) {
+            .header-container { flex-direction: column; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 0.8rem; }
+            .container { grid-template-columns: 1fr; }
+            .footer-container { grid-template-columns: 1fr; text-align: center; }
+            .footer-section p { justify-content: center; }
+            .social-links { justify-content: center; }
+            .newsletter-form { flex-direction: column; }
+            .search-bar { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">📱 iPhone Store</a>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="🔍 Tìm lab (VD: CSS, JS...)">
+                <button id="search-btn">Tìm</button>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="products.html">Sản phẩm</a></li>
+                    <li><a href="accessories.html">Phụ kiện</a></li>
+                    <li><a href="cart.html">🛒 Giỏ hàng <span id="cart-count">0</span></a></li>
+                    <li><a href="login.html">Tài khoản</a></li>
+                    <li><a href="contact.html">Liên hệ</a></li>
+                    <li><a href="thuchanh.html" class="active">Lab thực hành</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- PAGE TITLE -->
+    <div class="page-title">
+        <h1>🧪 Lab Thực Hành</h1>
+        <p>Môn Thiết kế Web — Theo dõi tiến độ và truy cập nhanh các bài lab</p>
+    </div>
+
+    <!-- PROGRESS SUMMARY -->
+    <div class="progress-summary">
+        <span>📊 Tiến độ hoàn thành:</span>
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+        <span class="progress-count" id="progress-text">0 / 8 lab</span>
+        <span style="font-size:0.8rem; color:#888">💡 Nhấn badge để đổi trạng thái</span>
+    </div>
+
+    <!-- SEARCH RESULT MESSAGE -->
+    <p id="search-results-msg"></p>
+
+    <!-- MAIN CONTENT -->
+    <div class="container" id="lab-grid">
+
+        <!-- Lab 1 -->
+        <div class="card" data-lab="Lab01 HTML cơ bản thực hành">
+            <div>
+                <div class="card-header">
+                    <h2>Lab01: HTML</h2>
+                    <button class="status-badge todo" onclick="cycleStatus(this)">⬜ Chưa làm</button>
+                </div>
+                <p><a href="Labthuchanh/Labthuchanh/Lab1/Lab01/Lab01/Vi_du/lab1_bai3.html">📄 Lab1_3</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab1/Lab01/Lab01/Vi_du/lab1_bai4.html">📄 Lab1_4</a></p>
+                <p class="card-note">HTML cơ bản: cấu trúc trang, thẻ, thuộc tính</p>
+            </div>
+            <a href="Labthuchanh/Labthuchanh/Lab1/Lab01/Lab01/Vi_du/index.html" class="btn">📂 Xem chi tiết</a>
+        </div>
+
+        <!-- Lab 2 -->
+        <div class="card" data-lab="Lab02 Table List bảng danh sách">
+            <div>
+                <div class="card-header">
+                    <h2>Lab02: Table &amp; List</h2>
+                    <button class="status-badge todo" onclick="cycleStatus(this)">⬜ Chưa làm</button>
+                </div>
+                <p><a href="Labthuchanh/Labthuchanh/Lab2/Lab02/Lab02/lab02_bai1_table.html">📄 Lab2_1</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab2/Lab02/Lab02/lab02_bai2_table.html">📄 Lab2_2</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab2/Lab02/Lab02/lab02_khung_table.html">📄 Lab2_3</a></p>
+                <p class="card-note">Bảng, danh sách có thứ tự &amp; không thứ tự</p>
+            </div>
+            <a href="Labthuchanh/Labthuchanh/Lab2/Lab02/Lab02/Vi_du_Lab01/index.html" class="btn">📂 Xem chi tiết</a>
+        </div>
+
+        <!-- Lab 3 -->
+        <div class="card" data-lab="Lab03 Frame Form khung biểu mẫu">
+            <div>
+                <div class="card-header">
+                    <h2>Lab03: Frame &amp; Form</h2>
+                    <button class="status-badge todo" onclick="cycleStatus(this)">⬜ Chưa làm</button>
+                </div>
+                <p><a href="Labthuchanh/Labthuchanh/Lab3/Lab03/Lab03/Vi_du_Lab01/lab03_bai1.html">📄 Lab3_1</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab3/Lab03/Lab03/Vi_du_Lab01/lab03_bai2.html">📄 Lab3_2</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab3/Lab03/xl_lab03_bai3.php">📄 Lab3_3 (PHP)</a></p>
+                <p class="card-note">Form nhập liệu, iframe, xử lý dữ liệu</p>
+            </div>
+            <a href="Labthuchanh/Labthuchanh/Lab3/Lab03/Lab03/Vi_du_Lab01/index.html" class="btn">📂 Xem chi tiết</a>
+        </div>
+
+        <!-- Lab 4 -->
+        <div class="card" data-lab="Lab04 CSS cơ bản style stylesheet">
+            <div>
+                <div class="card-header">
+                    <h2>Lab04: CSS cơ bản</h2>
+                    <button class="status-badge todo" onclick="cycleStatus(this)">⬜ Chưa làm</button>
+                </div>
+                <p><a href="Labthuchanh/Labthuchanh/Lab4/Lab04/Lab04/Vi_du/lab04_bai1.html">📄 Lab4_1</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab4/Lab04/Lab04/Vi_du/lab04_bai2.html">📄 Lab4_2</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab4/Lab04/Lab04/Vi_du/lab04_bai3.html">📄 Lab4_3</a></p>
+                <p class="card-note">Selector, màu sắc, font, box model</p>
+            </div>
+            <a href="Labthuchanh/Labthuchanh/Lab4/Lab04/Lab04/Vi_du/index.html" class="btn">📂 Xem chi tiết</a>
+        </div>
+
+        <!-- Lab 5 -->
+        <div class="card" data-lab="Lab05 CSS thuộc tính nâng cao animation">
+            <div>
+                <div class="card-header">
+                    <h2>Lab05: CSS nâng cao</h2>
+                    <button class="status-badge todo" onclick="cycleStatus(this)">⬜ Chưa làm</button>
+                </div>
+                <p><a href="Labthuchanh/Labthuchanh/Lab5/Lab05/Vi_du/lab05_bai1.html">📄 Lab5_1</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab5/Lab05/Vi_du/lab05_bai2.html">📄 Lab5_2</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab5/Lab05/Vi_du/lab05_menu.html">📄 Lab5_3 (Menu)</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab5/Lab05/Bai_2/index.html">📄 Lab5_4</a></p>
+                <p class="card-note">Pseudo-class, transition, hover effects</p>
+            </div>
+            <a href="Labthuchanh/Labthuchanh/Lab5/Lab05/Vi_du/index.html" class="btn">📂 Xem chi tiết</a>
+        </div>
+
+        <!-- Lab 6 -->
+        <div class="card" data-lab="Lab06 Layout Responsive Flexbox Grid">
+            <div>
+                <div class="card-header">
+                    <h2>Lab06: Layout Responsive</h2>
+                    <button class="status-badge todo" onclick="cycleStatus(this)">⬜ Chưa làm</button>
+                </div>
+                <p><a href="Labthuchanh/Labthuchanh/Lab6/Lab06/Vi_du/lab06_bai1.html">📄 Lab6_1</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab6/Lab06/Vi_du/lab06_bai2.html">📄 Lab6_2</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab6/Lab06/Vi_du/lab06_menu_responsive.html">📄 Lab6_3 (Menu)</a></p>
+                <p class="card-note">Flexbox, Grid, Media Query, mobile-first</p>
+            </div>
+            <a href="Labthuchanh/Labthuchanh/Lab6/Lab06/Vi_du/index.html" class="btn">📂 Xem chi tiết</a>
+        </div>
+
+        <!-- Lab 7 -->
+        <div class="card" data-lab="Lab07 Javascript JS cơ bản DOM event">
+            <div>
+                <div class="card-header">
+                    <h2>Lab07: Javascript</h2>
+                    <button class="status-badge todo" onclick="cycleStatus(this)">⬜ Chưa làm</button>
+                </div>
+                <p><a href="Labthuchanh/Labthuchanh/Lab7/Lab07/Vi_du/lab07_bai1.html">📄 Lab7_1</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab7/Lab07/Vi_du/lab07_bai2.html">📄 Lab7_2</a></p>
+                <p class="card-note">Biến, hàm, DOM, sự kiện (event)</p>
+            </div>
+            <a href="Labthuchanh/Labthuchanh/Lab7/Lab07/Vi_du/index.html" class="btn">📂 Xem chi tiết</a>
+        </div>
+
+        <!-- Lab 8 -->
+        <div class="card" data-lab="Lab08 Javascript nâng cao JSON slider AJAX">
+            <div>
+                <div class="card-header">
+                    <h2>Lab08: JS nâng cao</h2>
+                    <button class="status-badge todo" onclick="cycleStatus(this)">⬜ Chưa làm</button>
+                </div>
+                <p><a href="Labthuchanh/Labthuchanh/Lab8/Lab08/Vi_du_2/lab08_json.html">📄 Lab8_1 (JSON)</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab8/Lab08/Vi_du_2/lab08_slider.html">📄 Lab8_2 (Slider)</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab8/Lab08/Vi_du_2/index.html">📄 Lab8_3</a></p>
+                <p><a href="Labthuchanh/Labthuchanh/Lab8/Lab08/Vi_du_1/index.html">📄 Lab8_3 v2</a></p>
+                <p class="card-note">JSON, Fetch API, Slider, LocalStorage</p>
+            </div>
+            <a href="Labthuchanh/Labthuchanh/Lab8/Lab08/Vi_du_2/index.html" class="btn">📂 Xem chi tiết</a>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>📱 iPhone Store</h3>
+                <p>Chuyên cung cấp iPhone và phụ kiện chính hãng Apple tại Việt Nam. Cam kết sản phẩm chất lượng, bảo hành uy tín.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">📘</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="YouTube">▶️</a>
+                    <a href="#" aria-label="TikTok">🎵</a>
+                    <a href="#" aria-label="Zalo">💬</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>🔗 Liên kết nhanh</h4>
+                <ul>
+                    <li><a href="index.html">🏠 Trang chủ</a></li>
+                    <li><a href="products.html">📱 Sản phẩm</a></li>
+                    <li><a href="accessories.html">🎧 Phụ kiện</a></li>
+                    <li><a href="cart.html">🛒 Giỏ hàng</a></li>
+                    <li><a href="login.html">🔑 Tài khoản</a></li>
+                    <li><a href="contact.html">📞 Liên hệ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>📜 Chính sách</h4>
+                <ul>
+                    <li><a href="#">🔒 Chính sách bảo mật</a></li>
+                    <li><a href="#">🚚 Chính sách vận chuyển</a></li>
+                    <li><a href="#">🔄 Chính sách đổi trả</a></li>
+                    <li><a href="#">💳 Hình thức thanh toán</a></li>
+                    <li><a href="#">⭐ Điều khoản sử dụng</a></li>
+                    <li><a href="#">❓ FAQ - Hỏi đáp</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>📞 Liên hệ</h4>
+                <p>📍 123 Đường ABC, Quận 1, TP.HCM</p>
+                <p>📞 Hotline: <strong>1900 1234</strong></p>
+                <p>📧 Email: <a href="mailto:support@iphonestore.com" style="color:#4fc3f7;">support@iphonestore.com</a></p>
+                <p>⏰ Thời gian: 8:00 - 21:00 (T2-CN)</p>
+                <h4 style="margin-top: 1rem;">📧 Đăng ký nhận tin</h4>
+                <form class="newsletter-form" id="newsletter-form">
+                    <input type="email" placeholder="Email của bạn" required>
+                    <button type="submit">Đăng ký</button>
+                </form>
+                <div class="payment-methods">
+                    <span>💳 Visa</span><span>💳 Mastercard</span><span>💳 JCB</span>
+                    <span>🏦 QR Code</span><span>🏦 VietQR</span><span>💵 COD</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 iPhone Store. Thiết kế bởi <a href="#">iPhone Store Team</a>. Tất cả các quyền được bảo lưu.</p>
+            <p style="margin-top:0.5rem;font-size:0.75rem;">🏆 Đối tác ủy quyền chính thức của Apple tại Việt Nam</p>
+        </div>
+    </footer>
+
+    <a href="#" class="back-to-top" id="back-to-top">↑</a>
+
+    <script>
+        // ---- BACK TO TOP ----
+        const backBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            backBtn.classList.toggle('show', window.scrollY > 300);
+        });
+        backBtn.addEventListener('click', e => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ---- NEWSLETTER ----
+        document.getElementById('newsletter-form').addEventListener('submit', e => {
+            e.preventDefault();
+            const email = e.target.querySelector('input').value;
+            alert('✅ Cảm ơn ' + email + ' đã đăng ký nhận tin!');
+            e.target.reset();
+        });
+
+        // ---- PROGRESS TRACKER ----
+        const STORAGE_KEY = 'labStatus';
+
+        function loadStatuses() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+        }
+        function saveStatuses(obj) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+        }
+
+        const statusCycle = ['todo', 'doing', 'done'];
+        const statusLabel = { todo: '⬜ Chưa làm', doing: '🔄 Đang làm', done: '✅ Hoàn thành' };
+
+        function cycleStatus(btn) {
+            const card = btn.closest('.card');
+            const labKey = card.dataset.lab;
+            const current = statusCycle.indexOf(btn.classList[1]);
+            const next = statusCycle[(current + 1) % 3];
+
+            btn.className = 'status-badge ' + next;
+            btn.textContent = statusLabel[next];
+
+            const stored = loadStatuses();
+            stored[labKey] = next;
+            saveStatuses(stored);
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const stored = loadStatuses();
+            const cards = document.querySelectorAll('#lab-grid .card');
+            let done = 0;
+            cards.forEach(card => {
+                if (stored[card.dataset.lab] === 'done') done++;
+            });
+            const total = cards.length;
+            const pct = Math.round((done / total) * 100);
+            document.getElementById('progress-fill').style.width = pct + '%';
+            document.getElementById('progress-text').textContent = done + ' / ' + total + ' lab';
+        }
+
+        // Restore statuses on load
+        function restoreStatuses() {
+            const stored = loadStatuses();
+            document.querySelectorAll('#lab-grid .card').forEach(card => {
+                const key = card.dataset.lab;
+                if (stored[key]) {
+                    const btn = card.querySelector('.status-badge');
+                    btn.className = 'status-badge ' + stored[key];
+                    btn.textContent = statusLabel[stored[key]];
+                }
+            });
+            updateProgress();
+        }
+        restoreStatuses();
+
+        // ---- SEARCH / FILTER ----
+        const searchInput = document.getElementById('search-input');
+        const searchBtn = document.getElementById('search-btn');
+        const resultsMsg = document.getElementById('search-results-msg');
+
+        function doSearch() {
+            const q = searchInput.value.trim().toLowerCase();
+            const cards = document.querySelectorAll('#lab-grid .card');
+            let shown = 0;
+            cards.forEach(card => {
+                const text = card.dataset.lab.toLowerCase() + card.innerText.toLowerCase();
+                const match = !q || text.includes(q);
+                card.style.display = match ? '' : 'none';
+                if (match) shown++;
+            });
+            if (q) {
+                resultsMsg.style.display = 'block';
+                resultsMsg.textContent = shown > 0
+                    ? '🔍 Tìm thấy ' + shown + ' lab cho "' + q + '"'
+                    : '❌ Không tìm thấy lab nào cho "' + q + '"';
+            } else {
+                resultsMsg.style.display = 'none';
+            }
+        }
+
+        searchBtn.addEventListener('click', doSearch);
+        searchInput.addEventListener('keyup', e => {
+            if (e.key === 'Enter') doSearch();
+            if (searchInput.value === '') doSearch();
+        });
+    </script>
+</body>
+</html>

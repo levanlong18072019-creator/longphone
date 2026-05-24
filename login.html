@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập / Đăng ký</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo"><a href="index.html">📱 iPhone Store</a></div>
+            
+            <!-- Thanh tìm kiếm -->
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="🔍 Tìm kiếm iPhone, phụ kiện...">
+                <button id="search-btn">Tìm</button>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="products.html">Sản phẩm</a></li>
+                    <li><a href="accessories.html">Phụ kiện</a></li>
+                    <li><a href="cart.html">🛒 Giỏ hàng <span id="cart-count">0</span></a></li>
+                    <li><a href="login.html">Tài khoản</a></li>
+                    <li><a href="contact.html">Liên hệ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container auth-container">
+        <div class="auth-wrapper">
+            <!-- Tab buttons -->
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="login-tab">Đăng nhập</button>
+                <button class="tab-btn" id="register-tab">Đăng ký</button>
+            </div>
+            
+            <!-- Form Đăng nhập -->
+            <div id="login-form-container" class="auth-form-container active">
+                <h2>Đăng nhập</h2>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label>📧 Email</label>
+                        <input type="email" id="login-email" placeholder="example@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>🔒 Mật khẩu</label>
+                        <input type="password" id="login-password" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-options">
+                        <label>
+                            <input type="checkbox" id="remember-me"> Ghi nhớ đăng nhập
+                        </label>
+                        <a href="#" id="forgot-password">Quên mật khẩu?</a>
+                    </div>
+                    <button type="submit" class="btn">Đăng nhập</button>
+                    <p class="auth-switch-text">
+                        Chưa có tài khoản? <a href="#" id="switch-to-register">Đăng ký ngay</a>
+                    </p>
+                </form>
+            </div>
+            
+            <!-- Form Đăng ký -->
+            <div id="register-form-container" class="auth-form-container">
+                <h2>Đăng ký</h2>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label>👤 Họ và tên</label>
+                        <input type="text" id="reg-name" placeholder="Nguyễn Văn A" required>
+                    </div>
+                    <div class="form-group">
+                        <label>📧 Email</label>
+                        <input type="email" id="reg-email" placeholder="example@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>📱 Số điện thoại</label>
+                        <input type="tel" id="reg-phone" placeholder="0912 345 678">
+                    </div>
+                    <div class="form-group">
+                        <label>🔒 Mật khẩu</label>
+                        <input type="password" id="reg-password" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label>🔒 Xác nhận mật khẩu</label>
+                        <input type="password" id="reg-confirm-password" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="terms-checkbox" required>
+                            Tôi đồng ý với <a href="#">Điều khoản sử dụng</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn">Đăng ký</button>
+                    <p class="auth-switch-text">
+                        Đã có tài khoản? <a href="#" id="switch-to-login">Đăng nhập ngay</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+<!-- Footer mới -->
+<footer>
+    <div class="footer-container">
+        <!-- Cột 1: Giới thiệu -->
+        <div class="footer-section">
+            <h3>📱 iPhone Store</h3>
+            <p>Chuyên cung cấp iPhone và phụ kiện chính hãng Apple tại Việt Nam. Cam kết sản phẩm chất lượng, bảo hành uy tín.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">📘</a>
+                <a href="#" aria-label="Instagram">📷</a>
+                <a href="#" aria-label="YouTube">▶️</a>
+                <a href="#" aria-label="TikTok">🎵</a>
+                <a href="#" aria-label="Zalo">💬</a>
+            </div>
+        </div>
+
+        <!-- Cột 2: Liên kết nhanh -->
+        <div class="footer-section">
+            <h4>🔗 Liên kết nhanh</h4>
+            <ul>
+                <li><a href="index.html">🏠 Trang chủ</a></li>
+                <li><a href="products.html">📱 Sản phẩm</a></li>
+                <li><a href="accessories.html">🎧 Phụ kiện</a></li>
+                <li><a href="cart.html">🛒 Giỏ hàng</a></li>
+                <li><a href="login.html">🔑 Tài khoản</a></li>
+                <li><a href="contact.html">📞 Liên hệ</a></li>
+            </ul>
+        </div>
+
+        <!-- Cột 3: Chính sách -->
+        <div class="footer-section">
+            <h4>📜 Chính sách</h4>
+            <ul>
+                <li><a href="#">🔒 Chính sách bảo mật</a></li>
+                <li><a href="#">🚚 Chính sách vận chuyển</a></li>
+                <li><a href="#">🔄 Chính sách đổi trả</a></li>
+                <li><a href="#">💳 Hình thức thanh toán</a></li>
+                <li><a href="#">⭐ Điều khoản sử dụng</a></li>
+                <li><a href="#">❓ FAQ - Hỏi đáp</a></li>
+            </ul>
+        </div>
+
+        <!-- Cột 4: Thông tin liên hệ & Đăng ký -->
+        <div class="footer-section">
+            <h4>📞 Liên hệ</h4>
+            <p>📍 123 Đường ABC, Quận 1, TP.HCM</p>
+            <p>📞 Hotline: <strong>1900 1234</strong></p>
+            <p>📧 Email: <a href="mailto:support@iphonestore.com" style="color:#ff6b6b;">support@iphonestore.com</a></p>
+            <p>⏰ Thời gian: 8:00 - 21:00 (T2-CN)</p>
+            
+            <h4 style="margin-top: 1rem;">📧 Đăng ký nhận tin</h4>
+            <form class="newsletter-form" id="newsletter-form">
+                <input type="email" placeholder="Email của bạn" required>
+                <button type="submit">Đăng ký</button>
+            </form>
+            <div class="payment-methods">
+                <span>💳 Visa</span>
+                <span>💳 Mastercard</span>
+                <span>💳 JCB</span>
+                <span>🏦 QR Code</span>
+                <span>🏦 VietQR</span>
+                <span>💵 COD</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2025 iPhone Store. Thiết kế bởi <a href="#">iPhone Store Team</a>. Tất cả các quyền được bảo lưu.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.75rem;">🏆 Đối tác ủy quyền chính thức của Apple tại Việt Nam</p>
+    </div>
+</footer>
+
+<!-- Nút Back to Top -->
+<a href="#" class="back-to-top" id="back-to-top">↑</a>
+    
+    <script src="js/main.js"></script>
+</body>
+</html>

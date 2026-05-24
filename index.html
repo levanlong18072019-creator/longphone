@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Store - Trang chủ</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">📱 iPhone Store</a>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="🔍 Tìm kiếm iPhone, phụ kiện...">
+                <button id="search-btn">Tìm</button>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="products.html">Sản phẩm</a></li>
+                    <li><a href="accessories.html">Phụ kiện</a></li>
+                    <li><a href="cart.html">🛒 Giỏ hàng <span id="cart-count">0</span></a></li>
+                    <li><a href="login.html">🔑 Tài khoản</a></li>
+                    <li><a href="contact.html">Liên hệ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>iPhone Chính Hãng</h1>
+                <p>Trải nghiệm công nghệ đỉnh cao với giá tốt nhất | Trả góp 0%</p>
+                <a href="products.html" class="btn">Mua ngay</a>
+            </div>
+        </section>
+
+        <section class="featured-products">
+            <div class="container">
+                <h2>🔥 iPhone Nổi Bật Nhất</h2>
+                <div id="featured-products" class="product-grid"></div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="products.html" class="btn">Xem tất cả sản phẩm</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer mới -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>📱 iPhone Store</h3>
+                <p>Chuyên cung cấp iPhone và phụ kiện chính hãng Apple tại Việt Nam. Cam kết sản phẩm chất lượng, bảo hành uy tín.</p>
+                <div class="social-links">
+                    <a href="#">📘</a>
+                    <a href="#">📷</a>
+                    <a href="#">▶️</a>
+                    <a href="#">🎵</a>
+                    <a href="#">💬</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>🔗 Liên kết nhanh</h4>
+                <ul>
+                    <li><a href="index.html">🏠 Trang chủ</a></li>
+                    <li><a href="products.html">📱 Sản phẩm</a></li>
+                    <li><a href="accessories.html">🎧 Phụ kiện</a></li>
+                    <li><a href="cart.html">🛒 Giỏ hàng</a></li>
+                    <li><a href="login.html">🔑 Tài khoản</a></li>
+                    <li><a href="contact.html">📞 Liên hệ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>📜 Chính sách</h4>
+                <ul>
+                    <li><a href="#">🔒 Chính sách bảo mật</a></li>
+                    <li><a href="#">🚚 Chính sách vận chuyển</a></li>
+                    <li><a href="#">🔄 Chính sách đổi trả</a></li>
+                    <li><a href="#">💳 Hình thức thanh toán</a></li>
+                    <li><a href="#">⭐ Điều khoản sử dụng</a></li>
+                    <li><a href="#">❓ FAQ - Hỏi đáp</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>📞 Liên hệ</h4>
+                <p>📍 123 Đường ABC, Quận 1, TP.HCM</p>
+                <p>📞 Hotline: <strong>1900 1234</strong></p>
+                <p>📧 Email: <a href="mailto:support@iphonestore.com" style="color:#ff6b6b;">support@iphonestore.com</a></p>
+                <p>⏰ Thời gian: 8:00 - 21:00 (T2-CN)</p>
+                <h4 style="margin-top: 1rem;">📧 Đăng ký nhận tin</h4>
+                <form class="newsletter-form" id="newsletter-form">
+                    <input type="email" placeholder="Email của bạn" required>
+                    <button type="submit">Đăng ký</button>
+                </form>
+                <div class="payment-methods">
+                    <span>💳 Visa</span>
+                    <span>💳 Mastercard</span>
+                    <span>💳 JCB</span>
+                    <span>🏦 QR Code</span>
+                    <span>🏦 VietQR</span>
+                    <span>💵 COD</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 iPhone Store. Thiết kế bởi <a href="#">iPhone Store Team</a>. Tất cả các quyền được bảo lưu.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.75rem;">🏆 Đối tác ủy quyền chính thức của Apple tại Việt Nam</p>
+        </div>
+    </footer>
+
+    <a href="#" class="back-to-top" id="back-to-top">↑</a>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
